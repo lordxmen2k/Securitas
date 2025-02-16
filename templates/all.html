@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>All Models Test Report</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f8f9fa;
+    }
+    h1 {
+      text-align: center;
+    }
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin: 10px;
+      padding: 15px;
+      /* Originally: width: calc(25% - 20px); 
+         Now 40% less wide -> 60% of original width: */
+      width: calc(25% * 0.6 - 20px); /* equivalent to calc(15% - 20px) */
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .card h3 {
+      text-align: center;
+      margin-top: 0;
+    }
+    .grade-circle {
+      display: block;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      border-radius: 50%;
+      color: white;
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+      margin: 10px auto;
+    }
+    /* Grade color styles */
+    .grade-A { background-color: #4CAF50; }
+    .grade-B { background-color: #8BC34A; }
+    .grade-C { background-color: #FFC107; }
+    .grade-D { background-color: #FF9800; }
+    .grade-F { background-color: #F44336; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 4px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    @media screen and (max-width: 768px) {
+      .card {
+        width: calc(50% - 20px);
+      }
+    }
+    @media screen and (max-width: 480px) {
+      .card {
+        width: calc(100% - 20px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>All Models Test Report</h1>
+  <div class="card-container">
+    {% for result in results %}
+      {% set grade_letter = result.grade.split(" ")[0] %}
+      {% if grade_letter == "A" %}
+        {% set grade_class = "grade-A" %}
+      {% elif grade_letter == "B" %}
+        {% set grade_class = "grade-B" %}
+      {% elif grade_letter == "C" %}
+        {% set grade_class = "grade-C" %}
+      {% elif grade_letter == "D" %}
+        {% set grade_class = "grade-D" %}
+      {% else %}
+        {% set grade_class = "grade-F" %}
+      {% endif %}
+      <div class="card">
+        <h3>{{ result.model_name|capitalize }}</h3>
+        <div class="grade-circle {{ grade_class }}">
+          {{ grade_letter }}
+        </div>
+        <table>
+          <tr>
+            <th>Adversarial</th>
+            <td>{{ result.adversarial }}</td>
+          </tr>
+          <tr>
+            <th>Bias Diff</th>
+            <td>{{ result.bias_diff }}</td>
+          </tr>
+          <tr>
+            <th>Security</th>
+            <td>{{ result.security }}</td>
+          </tr>
+          <tr>
+            <th>Performance</th>
+            <td>{{ result.perf_time }}</td>
+          </tr>
+          <tr>
+            <th>Confidence</th>
+            <td>{{ result.confidence }}</td>
+          </tr>
+          <tr>
+            <th>Gradient Norm</th>
+            <td>{{ result.grad_norm }}</td>
+          </tr>
+          <tr>
+            <th>Activation Sparsity</th>
+            <td>{{ result.sparsity }}</td>
+          </tr>
+          <tr>
+            <th>Param Count</th>
+            <td>{{ result.param_count }}</td>
+          </tr>
+          <tr>
+            <th>Memory Usage</th>
+            <td>{{ result.mem_usage }}</td>
+          </tr>
+          <tr>
+            <th>Occlusion Drop</th>
+            <td>{{ result.occlusion_drop }}</td>
+          </tr>
+          <tr>
+            <th>Total Penalty</th>
+            <td>{{ result.total_penalty }}</td>
+          </tr>
+        </table>
+      </div>
+    {% endfor %}
+  </div>
+</body>
+</html>

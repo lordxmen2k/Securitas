@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ result.model_name|capitalize }} Test Report</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background-color: #f8f9fa; }
+    .container { max-width: 600px; margin: auto; background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    h1, h2 { text-align: center; }
+    .grade-circle { display: block; width: 60px; height: 60px; line-height: 60px; border-radius: 50%; color: white; text-align: center; font-size: 24px; font-weight: bold; margin: 20px auto; }
+    .grade-A { background-color: #4CAF50; }
+    .grade-B { background-color: #8BC34A; }
+    .grade-C { background-color: #FFC107; }
+    .grade-D { background-color: #FF9800; }
+    .grade-F { background-color: #F44336; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 16px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>{{ result.model_name|capitalize }} Test Report</h1>
+    {% set grade_letter = result.grade.split(" ")[0] %}
+    {% if grade_letter == "A" %}{% set grade_class = "grade-A" %}
+    {% elif grade_letter == "B" %}{% set grade_class = "grade-B" %}
+    {% elif grade_letter == "C" %}{% set grade_class = "grade-C" %}
+    {% elif grade_letter == "D" %}{% set grade_class = "grade-D" %}
+    {% else %}{% set grade_class = "grade-F" %}
+    {% endif %}
+    <div class="grade-circle {{ grade_class }}">{{ grade_letter }}</div>
+    <h2>Overall Grade: {{ result.grade }}</h2>
+    <table>
+      <tr><th>Adversarial</th><td>{{ result.adversarial }}</td></tr>
+      <tr><th>Bias Diff</th><td>{{ result.bias_diff }}</td></tr>
+      <tr><th>Security</th><td>{{ result.security }}</td></tr>
+      <tr><th>Performance</th><td>{{ result.perf_time }}</td></tr>
+      <tr><th>Confidence</th><td>{{ result.confidence }}</td></tr>
+      <tr><th>Gradient Norm</th><td>{{ result.grad_norm }}</td></tr>
+      <tr><th>Activation Sparsity</th><td>{{ result.sparsity }}</td></tr>
+      <tr><th>Parameter Count</th><td>{{ result.param_count }}</td></tr>
+      <tr><th>Memory Usage</th><td>{{ result.mem_usage }}</td></tr>
+      <tr><th>Occlusion Drop</th><td>{{ result.occlusion_drop }}</td></tr>
+      <tr><th>Total Penalty</th><td>{{ result.total_penalty }}</td></tr>
+    </table>
+  </div>
+</body>
+</html>
